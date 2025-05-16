@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FREE DIAMO</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #6200ea;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      padding: 2rem;
+    }
+    .hidden {
+      display: none;
+    }
+    input, button {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    button {
+      background: #03dac6;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .task {
+      display: flex;
+      justify-content: space-between;
+      margin: 0.5rem 0;
+      background: #222;
+      padding: 0.5rem;
+      border-radius: 5px;
+    }
+    .task.done::after {
+      content: '✓';
+      color: #0f0;
+      font-weight: bold;
+    }
+    .link-btn {
+      background: none;
+      color: #03dac6;
+      text-align: center;
+      padding: 0;
+    }
+    .loading {
+      font-size: 1.2rem;
+      text-align: center;
+      padding: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>FREE DIAMO</header>
+  <div class="container">
+    <div id="auth">
+      <h2>تسجيل الدخول أو إنشاء حساب</h2>
+      <input type="text" id="username" placeholder="اسم المستخدم" />
+      <input type="password" id="password" placeholder="كلمة المرور" />
+      <button onclick="login()">دخول</button>
+    </div>
+
+    <div id="tasks" class="hidden">
+      <h2>أكمل المهام</h2>
+      <div class="task" onclick="toggleTask(this)">شارك الموقع مع صديق</div>
+      <div class="task" onclick="toggleTask(this)">شاهد فيديو ترويجي</div>
+      <div class="task" onclick="toggleTask(this)">سجل إعجابك بصفحتنا</div>
+      <button onclick="showIDForm()">انهيت المهام</button>
+    </div>
+
+    <div id="idForm" class="hidden">
+      <h2>أدخل ID حسابك في فري فاير</h2>
+      <input type="text" id="ffid" placeholder="Free Fire ID" />
+      <button onclick="confirmSend()">شحن الجواهر</button>
+    </div>
+
+    <div id="loading" class="hidden loading">
+      <p>جاري شحن الجواهر إلى حسابك...</p>
+    </div>
+
+    <div id="success" class="hidden">
+      <h2>تم شحن الجواهر!</h2>
+      <p>تم إرسال الجواهر بنجاح إلى حسابك.</p>
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      if (user && pass) {
+        document.getElementById("auth").classList.add("hidden");
+        document.getElementById("tasks").classList.remove("hidden");
+      } else {
+        alert("الرجاء ملء جميع الحقول");
+      }
+    }
+
+    function toggleTask(el) {
+      el.classList.toggle("done");
+    }
+
+    function showIDForm() {
+      document.getElementById("tasks").classList.add("hidden");
+      document.getElementById("idForm").classList.remove("hidden");
+    }
+
+    function confirmSend() {
+      const id = document.getElementById("ffid").value;
+      if (id) {
+        document.getElementById("idForm").classList.add("hidden");
+        document.getElementById("loading").classList.remove("hidden");
+        setTimeout(() => {
+          document.getElementById("loading").classList.add("hidden");
+          document.getElementById("success").classList.remove("hidden");
+        }, 4000);
+      } else {
+        alert("يرجى إدخال ID صحيح");
+      }
+    }
+  </script>
+</body>
+</html>
