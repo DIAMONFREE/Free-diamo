@@ -1,140 +1,237 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FREE DIAMO</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #fff;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #6200ea;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1.5rem;
-    }
-    .container {
-      max-width: 400px;
-      margin: auto;
-      padding: 2rem;
-    }
-    .hidden {
-      display: none;
-    }
-    input, button {
-      width: 100%;
-      padding: 0.8rem;
-      margin: 0.5rem 0;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-    }
-    button {
-      background: #03dac6;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .task {
-      display: flex;
-      justify-content: space-between;
-      margin: 0.5rem 0;
-      background: #222;
-      padding: 0.5rem;
-      border-radius: 5px;
-    }
-    .task.done::after {
-      content: '✓';
-      color: #0f0;
-      font-weight: bold;
-    }
-    .link-btn {
-      background: none;
-      color: #03dac6;
-      text-align: center;
-      padding: 0;
-    }
-    .loading {
-      font-size: 1.2rem;
-      text-align: center;
-      padding: 2rem;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ooredoo Hack Pro v5.0</title>
+    <style>
+        :root {
+            --primary: #ed1c24;
+            --bg: #0a0a0a;
+            --panel: rgba(25, 25, 25, 0.95);
+            --accent: #00ff41;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        #matrix-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        .main-card {
+            background: var(--panel);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(237, 28, 36, 0.4);
+            border-radius: 24px;
+            padding: 30px;
+            width: 380px;
+            box-shadow: 0 0 40px rgba(237, 28, 36, 0.2);
+            text-align: center;
+            z-index: 10;
+        }
+
+        h1 { font-size: 22px; margin: 10px 0; color: #fff; text-transform: uppercase; }
+        .subtitle { color: #888; font-size: 12px; margin-bottom: 25px; }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #444;
+            border-radius: 12px;
+            color: white;
+            font-size: 18px;
+            box-sizing: border-box;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* العجلة المحترفة */
+        .wheel-box {
+            display: none;
+            position: relative;
+            margin: 20px auto;
+            width: 260px;
+            height: 260px;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 8px solid #222;
+            position: relative;
+            transition: transform 6s cubic-bezier(0.1, 0, 0.1, 1);
+            background: conic-gradient(
+                #ed1c24 0deg 60deg, #1a1a1a 60deg 120deg,
+                #ed1c24 120deg 180deg, #1a1a1a 180deg 240deg,
+                #ed1c24 240deg 300deg, #1a1a1a 300deg 360deg
+            );
+        }
+
+        .wheel-label span {
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            transform-origin: 50% 110px;
+            font-weight: bold;
+            font-size: 12px;
+            color: white;
+        }
+
+        .pointer {
+            position: absolute;
+            top: -15px; left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            color: gold;
+            font-size: 30px;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:disabled { background: #444; }
+
+        #console {
+            background: #000;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 11px;
+            color: var(--accent);
+            height: 50px;
+            overflow-y: hidden;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
-  <header>FREE DIAMO</header>
-  <div class="container">
-    <div id="auth">
-      <h2>تسجيل الدخول أو إنشاء حساب</h2>
-      <input type="text" id="username" placeholder="اسم المستخدم" />
-      <input type="password" id="password" placeholder="كلمة المرور" />
-      <button onclick="login()">دخول</button>
+
+<canvas id="matrix-canvas"></canvas>
+
+<div class="main-card">
+    <h1>Ooredoo System Bypass</h1>
+    <p class="subtitle">نسخة الوصول السريع للموزعين v5.0</p>
+
+    <div id="step-1">
+        <input type="tel" id="phone" placeholder="0XXXXXXXXX">
+        <button class="btn" onclick="initiate()">تحميل الثغرة والاتصال</button>
     </div>
 
-    <div id="tasks" class="hidden">
-      <h2>أكمل المهام</h2>
-      <div class="task" onclick="toggleTask(this)">شارك الموقع مع صديق</div>
-      <div class="task" onclick="toggleTask(this)">شاهد فيديو ترويجي</div>
-      <div class="task" onclick="toggleTask(this)">سجل إعجابك بصفحتنا</div>
-      <button onclick="showIDForm()">انهيت المهام</button>
+    <div id="step-2" style="display: none;">
+        <div id="console"></div>
+        <div class="wheel-box" id="wheel-box">
+            <div class="pointer">▼</div>
+            <div class="wheel" id="wheel">
+                <div class="wheel-label">
+                    <span style="transform: rotate(30deg) translateX(-50%)">100 GB</span>
+                    <span style="transform: rotate(90deg) translateX(-50%)">500 DA</span>
+                    <span style="transform: rotate(150deg) translateX(-50%)">20 GB</span>
+                    <span style="transform: rotate(210deg) translateX(-50%)">100 MB</span>
+                    <span style="transform: rotate(270deg) translateX(-50%)">10 GB</span>
+                    <span style="transform: rotate(330deg) translateX(-50%)">30 GB</span>
+                </div>
+            </div>
+        </div>
+        <button class="btn" id="spin-btn" onclick="runHack()" disabled>انتظار فك التشفير...</button>
     </div>
+</div>
 
-    <div id="idForm" class="hidden">
-      <h2>أدخل ID حسابك في فري فاير</h2>
-      <input type="text" id="ffid" placeholder="Free Fire ID" />
-      <button onclick="confirmSend()">شحن الجواهر</button>
-    </div>
-
-    <div id="loading" class="hidden loading">
-      <p>جاري شحن الجواهر إلى حسابك...</p>
-    </div>
-
-    <div id="success" class="hidden">
-      <h2>تم شحن الجواهر!</h2>
-      <p>تم إرسال الجواهر بنجاح إلى حسابك.</p>
-    </div>
-  </div>
-
-  <script>
-    function login() {
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
-      if (user && pass) {
-        document.getElementById("auth").classList.add("hidden");
-        document.getElementById("tasks").classList.remove("hidden");
-      } else {
-        alert("الرجاء ملء جميع الحقول");
-      }
+<script>
+    // طلب إذن الإشعارات
+    function requestNotify() {
+        if ("Notification" in window) {
+            Notification.requestPermission();
+        }
     }
 
-    function toggleTask(el) {
-      el.classList.toggle("done");
+    // تأثير الماتريكس
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const drops = Array(Math.floor(canvas.width/14)).fill(1);
+    function draw() {
+        ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = "#0f0";
+        drops.forEach((y, i) => {
+            ctx.fillText(Math.random() > 0.5 ? "0" : "1", i*14, y*14);
+            if(y*14 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        });
+    }
+    setInterval(draw, 50);
+
+    function initiate() {
+        const p = document.getElementById('phone').value;
+        if(p.length < 9) return alert("الرقم غير مكتمل");
+        
+        requestNotify(); // طلب الإذن فور البدء
+        
+        document.getElementById('step-1').style.display = 'none';
+        document.getElementById('step-2').style.display = 'block';
+        
+        const logs = ["Connecting...", "Proxy: 192.168.1.104", "Injecting exploit...", "Target: " + p, "Authorized!"];
+        let i = 0;
+        const interval = setInterval(() => {
+            const l = document.createElement('div');
+            l.innerText = "> " + logs[i];
+            document.getElementById('console').appendChild(l);
+            i++;
+            if(i >= logs.length) {
+                clearInterval(interval);
+                document.getElementById('wheel-box').style.display = 'block';
+                document.getElementById('spin-btn').disabled = false;
+                document.getElementById('spin-btn').innerText = "تدوير العجلة الآن";
+            }
+        }, 800);
     }
 
-    function showIDForm() {
-      document.getElementById("tasks").classList.add("hidden");
-      document.getElementById("idForm").classList.remove("hidden");
-    }
+    function runHack() {
+        const wheel = document.getElementById('wheel');
+        wheel.style.transform = "rotate(3630deg)"; // سيتوقف على 100GB
+        document.getElementById('spin-btn').disabled = true;
 
-    function confirmSend() {
-      const id = document.getElementById("ffid").value;
-      if (id) {
-        document.getElementById("idForm").classList.add("hidden");
-        document.getElementById("loading").classList.remove("hidden");
         setTimeout(() => {
-          document.getElementById("loading").classList.add("hidden");
-          document.getElementById("success").classList.remove("hidden");
-        }, 4000);
-      } else {
-        alert("يرجى إدخال ID صحيح");
-      }
+            sendNotification();
+            alert("تم الاختراق! تحقق من إشعارات هاتفك.");
+        }, 6500);
     }
-  </script>
+
+    function sendNotification() {
+        if (Notification.permission === "granted") {
+            new Notification("Ooredoo Service", {
+                body: "مبروك! تم تفعيل هديتك 100GB بنجاح على رقمك.",
+                icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Ooredoo_logo.svg/1200px-Ooredoo_logo.svg.png"
+            });
+        } else {
+            // إذا لم يعطِ إذن، نكتفي بالتنبيه العادي
+            console.log("إذن الإشعارات مرفوض");
+        }
+    }
+</script>
 </body>
 </html>
