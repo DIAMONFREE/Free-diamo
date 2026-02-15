@@ -3,107 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ooredoo Hack Pro v1.1</title>
+    <title>تحميل VECTOS MOD - الصفحة الرسمية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         :root {
-            --primary: #ed1c24;
-            --bg: #0a0a0a;
-            --panel: rgba(25, 25, 25, 0.95);
-            --accent: #00ff41;
+            --primary-color: #b38728;
+            --bg-color: #0d0d0d;
+            --text-main: #fcf6ba;
+            --text-sub: #bf953f;
+            --card-bg: #1a1a1a;
+            --shadow: 0 0 30px rgba(179, 135, 40, 0.3);
+            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+        }
+
+        * {
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            background-color: var(--bg);
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
+            padding: 20px;
         }
 
-        #matrix-canvas {
-            position: fixed;
-            top: 0; left: 0;
-            z-index: -1;
-            opacity: 0.2;
-        }
-
-        .main-card {
-            background: var(--panel);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(237, 28, 36, 0.4);
-            border-radius: 24px;
-            padding: 30px;
-            width: 380px;
-            box-shadow: 0 0 40px rgba(237, 28, 36, 0.2);
-            text-align: center;
-            z-index: 10;
-        }
-
-        h1 { font-size: 22px; margin: 10px 0; color: #fff; text-transform: uppercase; }
-        .subtitle { color: #888; font-size: 12px; margin-bottom: 25px; }
-
-        input {
+        .container {
             width: 100%;
-            padding: 15px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid #444;
-            border-radius: 12px;
-            color: white;
-            font-size: 18px;
-            box-sizing: border-box;
+            /* جعل العرض يتكيف مع الشاشات الصغيرة والكبيرة */
+            max-width: 450px; 
+            background: var(--card-bg);
+            border-radius: 35px;
+            padding: clamp(30px, 5vw, 45px) 25px;
+            box-shadow: var(--shadow);
             text-align: center;
+            border: 1px solid rgba(191, 149, 63, 0.3);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        /* تكبير الحاوية قليلاً في الشاشات الواسعة */
+        @media (min-width: 768px) {
+            .container { max-width: 500px; }
+        }
+
+        .app-icon {
+            /* حجم متجاوب للأيقونة */
+            width: clamp(100px, 30vw, 140px);
+            height: clamp(100px, 30vw, 140px);
+            border-radius: 30px;
+            object-fit: cover;
             margin-bottom: 20px;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 20px rgba(179, 135, 40, 0.5);
         }
 
-        /* العجلة المحترفة */
-        .wheel-box {
-            display: none;
-            position: relative;
-            margin: 20px auto;
-            width: 260px;
-            height: 260px;
+        .app-title {
+            font-family: 'Press Start 2P', cursive;
+            /* حجم خط مرن لاسم التطبيق */
+            font-size: clamp(16px, 5vw, 22px);
+            color: var(--text-main);
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+            line-height: 1.4;
         }
 
-        .wheel {
+        .description {
+            font-size: clamp(14px, 4vw, 15px);
+            color: #a1a1a6;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+
+        .download-btn {
+            background: var(--gold-gradient);
+            color: #000;
+            font-weight: 900;
+            padding: clamp(14px, 4vw, 18px);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-decoration: none;
+            font-size: clamp(16px, 4vw, 18px);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            border: none;
             width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 8px solid #222;
-            position: relative;
-            transition: transform 6s cubic-bezier(0.1, 0, 0.1, 1);
-            background: conic-gradient(
-                #ed1c24 0deg 60deg, #1a1a1a 60deg 120deg,
-                #ed1c24 120deg 180deg, #1a1a1a 180deg 240deg,
-                #ed1c24 240deg 300deg, #1a1a1a 300deg 360deg
-            );
         }
 
-        .wheel-label span {
-            position: absolute;
-            left: 50%;
-            top: 20px;
-            transform-origin: 50% 110px;
-            font-weight: bold;
-            font-size: 12px;
-            color: white;
+        .download-btn:active {
+            transform: scale(0.95);
         }
 
-        .pointer {
-            position: absolute;
-            top: -15px; left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-            color: gold;
-            font-size: 30px;
+        .vip-badge {
+            background: rgba(179, 135, 40, 0.05);
+            border: 1px solid var(--primary-color);
+            padding: 20px 15px;
+            border-radius: 25px;
+            margin-top: 30px;
         }
 
-        .btn {
-            background: var(--primary);
-            color: white;
+        .vip-badge h2 {
+            font-size: clamp(16px, 4vw, 18px);
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .code-box {
+            background: #000;
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-weight: 900;
+            color: var(--text-main);
+            border: 1px solid var(--text-sub);
+            display: inline-block;
+            margin: 10px 0;
+            letter-spacing: 1px;
+            font-size: clamp(14px, 4vw, 16px);
+        }
+
+        .expiry {
+            font-size: 11px;
+            color: var(--text-sub);
+            margin-top: 8px;
+            opacity: 0.8;
+        }
+
+        /* منع التمرير الأفقي العرضي */
+        html, body {
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+    <div class="container">
+        <img src="https://g.top4top.io/p_3698v6jiz0.png" alt="VECTOS MOD" class="app-icon">
+        
+        <h1 class="app-title">VECTOS MOD</h1>
+        
+        <p class="description">
+            كود تفعيل VIP مجاني بمناسبة شهر رمضان الفضيل صالح للكل حتى 2026/02/23 ✨🌙
+        </p>
+
+        <a href="https://apk.e-droid.net/apk/app3880411-u94qfg.apk?v=2" class="download-btn">
+            <i class="fas fa-cloud-download-alt"></i>
+            تحميل التطبيق (APK)
+        </a>
+
+        <div class="vip-badge">
+            <h2>👑 كود VIP مجاني للجميع</h2>
+            <div class="code-box">VECTOS VIP</div>
+            <p class="expiry">صالح لغاية: 2026/02/23</p>
+        </div>
+    </div>
+
+</body>
+</html>
+color: white;
             border: none;
             padding: 16px;
             border-radius: 12px;
